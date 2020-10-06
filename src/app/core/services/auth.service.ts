@@ -11,8 +11,7 @@ export class AuthService {
 
   createUser(user) {
     if (user) {
-      const body = user;
-      return this.http.post(this.endpoint, body);
+      return this.http.post(this.endpoint, user);
     }
   }
 }
