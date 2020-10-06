@@ -34,7 +34,8 @@ exports.createUser = functions.https.onRequest(async (request: any, response: an
 
 exports.createProfile = functions.auth.user().onCreate((user: UserRecord) => {
   const userObject = {
-    name: user.displayName
+    name: user.displayName,
+    uid: user.uid
   };
 
   return admin.firestore().doc(`users/${user.uid}`).set(userObject);
