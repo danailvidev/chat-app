@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   public showUserModal: boolean = false;
   public users: any;
   public selectedUser;
+  public history;
 
   @ViewChild('therapist') therapistInput: ElementRef;
   @ViewChild('currentUser') userInput: ElementRef;
@@ -40,8 +41,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onMarkReadButtonClick(e: Event) {
+    this.messageSvc.markRead(this.selectedUser);
+  }
+
   onUserSelected(user) {
     this.selectedUser = null;
+    this.messageSvc.getUserHistory(user).subscribe((res) => {
+      const sortedData = this.sortHistory(res);
+      this.history = sortedData;
+    });
     setTimeout(() => {
       this.selectedUser = user;
       this.cd.detectChanges();
@@ -55,18 +64,27 @@ export class DashboardComponent implements OnInit {
   onNewUserCreate(user) {
     this.authSvc.createUser({ name: user.name }).subscribe((x) => {
       this.onUserSelected({ name: user.name });
+      this.cd.detectChanges();
     });
   }
 
   onTherapistTextSend() {
+    const message = this.therapistInput.nativeElement.value;
+    this.messageSvc.createTherapistMessage(this.selectedUser, message);
     this.therapistInput.nativeElement.value = '';
-    console.log(this.therapistInput.nativeElement.value);
   }
 
   oncurrentUserTextSend() {
-    console.log(this.userInput.nativeElement.value, this.selectedUser);
     const message = this.userInput.nativeElement.value;
-    this.messageSvc.createMessage(this.selectedUser, message);
+    this.messageSvc.createUserMessage(this.selectedUser, message);
     this.userInput.nativeElement.value = '';
+  }
+
+  private sortHistory(history) {
+    if (Array.isArray(history)) {
+      return history.slice().sort((a: any, b: any) => {
+        return new Date(a.id).valueOf() - new Date(b.id).valueOf();
+      });
+    }
   }
 }
