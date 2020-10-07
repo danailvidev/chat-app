@@ -8,7 +8,7 @@
         <main class="relative h-full">
           <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 h-full flex flex-col">
             <!-- Replace with your content -->
-            <div class="px-4 py-6 sm:px-0 flex-grow flex flex-col">
+            <div class="px-4 py-6 sm:px-0 flex-grow flex flex-col overflow-auto">
               <ng-container *ngFor="let his of history | keyvalue">
                 <div *ngIf="his.value['id']" class="text-center text-gray-500">{{ his.value['id'] }}</div>
                 <ng-container *ngFor="let msg of his.value | keyvalue">
@@ -79,7 +79,7 @@
         <main class="relative h-full">
           <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 h-full flex flex-col">
             <!-- Replace with your content -->
-            <div class="px-4 py-6 sm:px-0 flex-grow flex flex-col">
+            <div class="px-4 py-6 sm:px-0 flex-grow flex flex-col overflow-auto">
               <ng-container *ngFor="let his of history | keyvalue">
                 <div *ngIf="his.value['id']" class="text-center text-gray-500">{{ his.value['id'] }}</div>
                 <ng-container *ngFor="let msg of his.value | keyvalue">

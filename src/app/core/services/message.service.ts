@@ -8,7 +8,8 @@ export class MessageService {
   constructor(private db: AngularFirestore) {}
 
   getUserHistory(user: any): Observable<any> {
-    return this.db.collection(`users/${user.uid}/messages`).valueChanges({ idField: 'id' });
+    const ref = this.db.collection<any>(`users/${user.uid}/messages`);
+    return ref.valueChanges({ idField: 'id' });
   }
 
   markRead(targetUser: any) {
